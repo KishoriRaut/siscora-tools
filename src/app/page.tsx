@@ -1,176 +1,607 @@
 'use client';
 
-import { 
-  Mail, 
-  QrCode, 
-  Key, 
-  Palette, 
-  Hash, 
-  Calculator, 
-  FileText, 
-  Image, 
-  Code,
-  ArrowRight
-} from 'lucide-react';
 import Link from 'next/link';
-
-const tools = [
-  {
-    name: 'Email Signature Generator',
-    href: '/tools/email-signature',
-    icon: Mail,
-    description: 'Create professional email signatures with custom styling and social links',
-    color: 'from-blue-500 to-blue-600',
-    features: ['Custom styling', 'Social media links', 'Logo upload', 'Multiple formats']
-  },
-  {
-    name: 'QR Code Generator',
-    href: '/tools/qr-generator',
-    icon: QrCode,
-    description: 'Generate QR codes for URLs, text, WiFi credentials, and more',
-    color: 'from-green-500 to-green-600',
-    features: ['URL encoding', 'Text encoding', 'WiFi QR codes', 'Custom styling']
-  },
-  {
-    name: 'Password Generator',
-    href: '/tools/password-generator',
-    icon: Key,
-    description: 'Generate secure passwords with customizable length and character sets',
-    color: 'from-red-500 to-red-600',
-    features: ['Custom length', 'Character sets', 'Strength indicator', 'Copy to clipboard']
-  },
-  {
-    name: 'Color Picker',
-    href: '/tools/color-picker',
-    icon: Palette,
-    description: 'Pick colors and get hex, RGB, HSL values with color palette generation',
-    color: 'from-purple-500 to-purple-600',
-    features: ['Color picker', 'Multiple formats', 'Palette generation', 'Color history']
-  },
-  {
-    name: 'Hash Generator',
-    href: '/tools/hash-generator',
-    icon: Hash,
-    description: 'Generate MD5, SHA-1, SHA-256, and other cryptographic hashes',
-    color: 'from-orange-500 to-orange-600',
-    features: ['Multiple algorithms', 'File hashing', 'Text hashing', 'Hash comparison']
-  },
-  {
-    name: 'Base64 Encoder',
-    href: '/tools/base64-encoder',
-    icon: Code,
-    description: 'Encode and decode Base64 strings with file support',
-    color: 'from-indigo-500 to-indigo-600',
-    features: ['Text encoding', 'File encoding', 'URL encoding', 'Validation']
-  },
-  {
-    name: 'Text Counter',
-    href: '/tools/text-counter',
-    icon: FileText,
-    description: 'Count words, characters, lines, and paragraphs in your text',
-    color: 'from-teal-500 to-teal-600',
-    features: ['Word count', 'Character count', 'Line count', 'Reading time']
-  },
-  {
-    name: 'Image Converter',
-    href: '/tools/image-converter',
-    icon: Image,
-    description: 'Convert images between different formats (JPG, PNG, WebP, etc.)',
-    color: 'from-pink-500 to-pink-600',
-    features: ['Format conversion', 'Quality adjustment', 'Batch processing', 'Preview']
-  },
-  {
-    name: 'Calculator',
-    href: '/tools/calculator',
-    icon: Calculator,
-    description: 'Advanced calculator with scientific functions and history',
-    color: 'from-gray-500 to-gray-600',
-    features: ['Basic operations', 'Scientific functions', 'History', 'Memory']
-  }
-];
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { Code, Mail, Calculator, Hash, Palette, Image, FileText, Zap, Shield, QrCode, Key, Type, ArrowRight, Sparkles, ChevronUp, Send, Wrench, Grid } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
-  return (
-    <div className="p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-              <Code className="w-7 h-7 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-              DevTools Hub
-            </h1>
-          </div>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            A comprehensive collection of developer tools and utilities to boost your productivity
-          </p>
-        </div>
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [activeTab, setActiveTab] = useState('all');
+  const [reducedMotion, setReducedMotion] = useState(false);
+  
+  const heroRef = useRef(null);
+  const featuresRef = useRef(null);
+  const toolsRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
 
-        {/* Tools Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tools.map((tool) => {
-            const Icon = tool.icon;
-            return (
-              <Link
-                key={tool.href}
-                href={tool.href}
-                className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    // Check for reduced motion preference
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mediaQuery.matches);
+    
+    const handleReducedMotionChange = (e: MediaQueryListEvent) => {
+      setReducedMotion(e.matches);
+    };
+    
+    mediaQuery.addEventListener('change', handleReducedMotionChange);
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleReducedMotionChange);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Animation variants
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: reducedMotion ? 0.1 : 0.6, ease: "easeOut" }
+  };
+
+  const staggerChildren = {
+    animate: {
+      transition: {
+        staggerChildren: reducedMotion ? 0 : 0.1
+      }
+    }
+  };
+
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: reducedMotion ? 0 : 0.1,
+        delayChildren: reducedMotion ? 0 : 0.2
+      }
+    }
+  };
+
+
+
+  const tabs = [
+    { id: 'all', name: 'All Tools', icon: Grid },
+    { id: 'communication', name: 'Communication', icon: Mail },
+    { id: 'security', name: 'Security', icon: Shield },
+    { id: 'development', name: 'Development', icon: Code },
+    { id: 'design', name: 'Design', icon: Palette },
+    { id: 'utilities', name: 'Utilities', icon: Wrench }
+  ];
+
+  const allTools = [
+    {
+      name: 'Email Signature Generator',
+      href: '/tools/email-signature',
+      icon: Mail,
+      description: 'Create professional email signatures with custom styling',
+      color: 'from-blue-500 to-blue-600',
+      category: 'communication'
+    },
+    {
+      name: 'Hash Generator',
+      href: '/tools/hash-generator',
+      icon: Hash,
+      description: 'Generate secure hashes for passwords and data verification',
+      color: 'from-green-500 to-emerald-600',
+      category: 'security'
+    },
+    {
+      name: 'Password Generator',
+      href: '/tools/password-generator',
+      icon: Key,
+      description: 'Generate secure, random passwords for your accounts',
+      color: 'from-orange-500 to-red-600',
+      category: 'security'
+    },
+    {
+      name: 'Base64 Encoder',
+      href: '/tools/base64-encoder',
+      icon: FileText,
+      description: 'Encode and decode data for various applications',
+      color: 'from-teal-500 to-cyan-600',
+      category: 'development'
+    },
+    {
+      name: 'QR Code Generator',
+      href: '/tools/qr-generator',
+      icon: QrCode,
+      description: 'Create QR codes for URLs, text, and contact information',
+      color: 'from-blue-500 to-cyan-600',
+      category: 'development'
+    },
+    {
+      name: 'Color Picker',
+      href: '/tools/color-picker',
+      icon: Palette,
+      description: 'Find the perfect colors for your designs and projects',
+      color: 'from-pink-500 to-rose-600',
+      category: 'design'
+    },
+    {
+      name: 'Image Converter',
+      href: '/tools/image-converter',
+      icon: Image,
+      description: 'Convert images between different formats seamlessly',
+      color: 'from-indigo-500 to-purple-600',
+      category: 'design'
+    },
+    {
+      name: 'Calculator',
+      href: '/tools/calculator',
+      icon: Calculator,
+      description: 'Advanced calculator for quick computations and math problems',
+      color: 'from-violet-500 to-pink-600',
+      category: 'utilities'
+    },
+    {
+      name: 'Text Counter',
+      href: '/tools/text-counter',
+      icon: Type,
+      description: 'Count words, characters, and analyze text content',
+      color: 'from-amber-500 to-orange-600',
+      category: 'utilities'
+    }
+  ];
+
+  const filteredTools = activeTab === 'all' 
+    ? allTools 
+    : allTools.filter(tool => tool.category === activeTab);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Skip to content link for accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        Skip to main content
+      </a>
+      {/* Hero Section */}
+      <motion.div 
+        ref={heroRef}
+        className="relative overflow-hidden"
+        style={{ y }}
+      >
+        {/* Animated Background */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-transparent"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: reducedMotion ? 0.1 : 1, delay: 0.2 }}
+        />
+        <motion.div 
+          className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.08),transparent_50%)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: reducedMotion ? 0.1 : 1, delay: 0.4 }}
+        />
+        <motion.div 
+          className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(147,51,234,0.08),transparent_50%)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: reducedMotion ? 0.1 : 1, delay: 0.6 }}
+        />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+          <motion.div 
+            className="text-center"
+            initial="initial"
+            animate="animate"
+            variants={staggerChildren}
+          >
+            {/* Logo */}
+            <motion.div 
+              className="flex items-center justify-center gap-3 mb-8"
+              variants={fadeInUp}
+            >
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl flex items-center justify-center shadow-xl"
+                whileHover={{ 
+                  scale: reducedMotion ? 1 : 1.1,
+                  rotate: reducedMotion ? 0 : 5,
+                  transition: { duration: 0.3 }
+                }}
               >
-                <div className={`h-2 bg-gradient-to-r ${tool.color}`} />
-                <div className="p-6">
-                  <div className="flex items-start gap-4 mb-4">
-                    <div className={`w-12 h-12 bg-gradient-to-r ${tool.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <Code className="w-8 h-8 text-white" />
+              </motion.div>
+              <motion.h1 
+                className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-violet-900 dark:from-white dark:via-blue-100 dark:to-violet-100 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: reducedMotion ? 0.1 : 0.8, delay: 0.2 }}
+              >
+                Siscora Tools
+              </motion.h1>
+            </motion.div>
+            
+            {/* Main Headline */}
+            <motion.h2 
+              className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 max-w-4xl mx-auto leading-tight"
+              variants={fadeInUp}
+            >
+              Smart, Free & Fast Online Utilities
+            </motion.h2>
+            
+            {/* Subtext */}
+            <motion.p 
+              className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+              variants={fadeInUp}
+            >
+              Explore 20+ developer, design, and everyday tools that work instantly in your browser.
+            </motion.p>
+            
+            {/* CTA Buttons */}
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
+              variants={fadeInUp}
+            >
+              <motion.div
+                whileHover={{ scale: reducedMotion ? 1 : 1.05 }}
+                whileTap={{ scale: reducedMotion ? 1 : 0.95 }}
+              >
+                <Link 
+                  href="#tools"
+                  className="group bg-gradient-to-r from-blue-600 to-violet-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:shadow-xl hover:shadow-blue-500/25 transition-all duration-300 inline-flex items-center justify-center"
+                >
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Explore Tools
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: reducedMotion ? 1 : 1.05 }}
+                whileTap={{ scale: reducedMotion ? 1 : 0.95 }}
+              >
+                <Link 
+                  href="/about"
+                  className="group border-2 border-blue-500 text-blue-600 dark:text-blue-400 px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 inline-flex items-center justify-center"
+                >
+                  Learn More
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Why Choose Siscora Tools Section */}
+      <motion.div 
+        ref={featuresRef}
+        className="py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Why Choose Siscora Tools?
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Built with modern web standards and user experience in mind
+            </p>
+          </motion.div>
+
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            initial="initial"
+            whileInView="animate"
+            variants={staggerContainer}
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            <motion.div 
+              className="group text-center p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl hover:shadow-2xl transition-all duration-500"
+              variants={fadeInUp}
+              whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
+              whileTap={{ scale: reducedMotion ? 1 : 0.98 }}
+            >
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300"
+                whileHover={{ 
+                  scale: reducedMotion ? 1 : 1.1,
+                  rotate: reducedMotion ? 0 : 5,
+                  transition: { duration: 0.3 }
+                }}
+              >
+                <Zap className="w-8 h-8 text-white" />
+              </motion.div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">💨 Free & Fast</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">All tools load instantly, no signup needed.</p>
+            </motion.div>
+            
+            <motion.div 
+              className="group text-center p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl hover:shadow-2xl transition-all duration-500"
+              variants={fadeInUp}
+              whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
+              whileTap={{ scale: reducedMotion ? 1 : 0.98 }}
+            >
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-green-500/25 transition-all duration-300"
+                whileHover={{ 
+                  scale: reducedMotion ? 1 : 1.1,
+                  rotate: reducedMotion ? 0 : 5,
+                  transition: { duration: 0.3 }
+                }}
+              >
+                <Shield className="w-8 h-8 text-white" />
+              </motion.div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">🔒 Privacy First</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">Your data never leaves your browser.</p>
+            </motion.div>
+            
+            <motion.div 
+              className="group text-center p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl hover:shadow-2xl transition-all duration-500"
+              variants={fadeInUp}
+              whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
+              whileTap={{ scale: reducedMotion ? 1 : 0.98 }}
+            >
+              <motion.div 
+                className="w-16 h-16 bg-gradient-to-r from-violet-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-violet-500/25 transition-all duration-300"
+                whileHover={{ 
+                  scale: reducedMotion ? 1 : 1.1,
+                  rotate: reducedMotion ? 0 : 5,
+                  transition: { duration: 0.3 }
+                }}
+              >
+                <Wrench className="w-8 h-8 text-white" />
+              </motion.div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">⚙️ Professional Tools</h3>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">Built for developers, designers, and everyday users.</p>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* All Tools Section with Tab Navigation */}
+      <motion.div 
+        ref={toolsRef}
+        id="tools"
+        className="py-20 bg-gradient-to-br from-gray-50/50 to-blue-50/50 dark:from-gray-900/50 dark:to-gray-800/50"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              All Tools
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Discover our collection of powerful, free tools designed to boost your productivity
+            </p>
+          </motion.div>
+
+          {/* Tab Navigation */}
+          <motion.div 
+            id="categories"
+            className="flex flex-wrap justify-center gap-2 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
+            viewport={{ once: true }}
+          >
+            {tabs.map((tab, index) => {
+              const Icon = tab.icon;
+              return (
+                <motion.button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? 'bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/25'
+                      : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:text-blue-600 dark:hover:text-blue-400'
+                  }`}
+                  whileHover={{ scale: reducedMotion ? 1 : 1.05 }}
+                  whileTap={{ scale: reducedMotion ? 1 : 0.95 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: reducedMotion ? 0.1 : 0.4, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="hidden sm:inline">{tab.name}</span>
+                </motion.button>
+              );
+            })}
+          </motion.div>
+
+          {/* Tools Grid */}
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            key={activeTab}
+            initial="initial"
+            animate="animate"
+            variants={staggerContainer}
+          >
+            {filteredTools.map((tool) => {
+              const Icon = tool.icon;
+              return (
+                <motion.article 
+                  key={tool.href}
+                  className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700"
+                  variants={fadeInUp}
+                  whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
+                  whileTap={{ scale: reducedMotion ? 1 : 0.98 }}
+                >
+                  <Link href={tool.href} className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-2xl">
+                    <div className="flex items-center mb-4">
+                      <motion.div 
+                        className={`w-12 h-12 bg-gradient-to-r ${tool.color} rounded-xl flex items-center justify-center mr-4 shadow-md group-hover:shadow-lg transition-all duration-300`}
+                        whileHover={{ 
+                          scale: reducedMotion ? 1 : 1.1,
+                          rotate: reducedMotion ? 0 : 5,
+                          transition: { duration: 0.3 }
+                        }}
+                        aria-hidden="true"
+                      >
+                        <Icon className="w-6 h-6 text-white" />
+                      </motion.div>
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {tool.name}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                        {tool.description}
-                      </p>
                     </div>
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors flex-shrink-0" />
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {tool.features.map((feature, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs text-gray-600 dark:text-gray-300 rounded-md"
-                      >
-                        {feature}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                    <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors">
+                      {tool.description}
+                    </p>
+                    <motion.div 
+                      className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-semibold text-sm group-hover:translate-x-1 transition-all duration-200"
+                      whileHover={{ x: reducedMotion ? 0 : 4 }}
+                      aria-hidden="true"
+                    >
+                      Open Tool
+                      <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                    </motion.div>
+                  </Link>
+                </motion.article>
+              );
+            })}
+          </motion.div>
 
-        {/* Footer */}
-        <div className="mt-16 text-center">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              More Tools Coming Soon
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              We're constantly adding new tools to help developers work more efficiently. 
-              Stay tuned for updates!
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-              <span>• JSON Formatter</span>
-              <span>• URL Shortener</span>
-              <span>• Regex Tester</span>
-              <span>• Lorem Ipsum Generator</span>
-              <span>• UUID Generator</span>
-            </div>
-          </div>
+          {/* No tools message for empty categories */}
+          {filteredTools.length === 0 && (
+            <motion.div 
+              className="text-center py-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              <div className="text-gray-500 dark:text-gray-400 text-lg">
+                No tools found in this category.
+              </div>
+            </motion.div>
+          )}
         </div>
-      </div>
+      </motion.div>
+
+      {/* Subscribe to Updates Section */}
+      <motion.div 
+        className="py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div 
+            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-12 shadow-xl border border-gray-200 dark:border-gray-700"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
+            viewport={{ once: true }}
+            whileHover={{ 
+              scale: reducedMotion ? 1 : 1.02,
+              transition: { duration: 0.3 }
+            }}
+          >
+            <motion.h2 
+              className="text-3xl font-bold text-gray-900 dark:text-white mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: reducedMotion ? 0.1 : 0.6, delay: 0.1 }}
+              viewport={{ once: true }}
+            >
+              Subscribe to Updates
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-600 dark:text-gray-300 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: reducedMotion ? 0.1 : 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              Get notified when we release new tools and features
+            </motion.p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: reducedMotion ? 0.1 : 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <motion.input 
+                type="email" 
+                placeholder="Enter your email"
+                className="flex-1 px-6 py-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                whileFocus={{ scale: reducedMotion ? 1 : 1.02 }}
+              />
+              <motion.button 
+                className="bg-gradient-to-r from-blue-600 to-violet-600 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center"
+                whileHover={{ scale: reducedMotion ? 1 : 1.05 }}
+                whileTap={{ scale: reducedMotion ? 1 : 0.95 }}
+              >
+                <Send className="w-5 h-5 mr-2" />
+                Subscribe
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Enhanced Scroll to Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 bg-gradient-to-r from-blue-600 to-violet-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 z-50"
+            initial={{ opacity: 0, scale: 0, y: 20 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1, 
+              y: 0,
+              transition: { 
+                type: "spring", 
+                stiffness: 500, 
+                damping: 30,
+                duration: reducedMotion ? 0.1 : 0.5
+              }
+            }}
+            exit={{ 
+              opacity: 0, 
+              scale: 0, 
+              y: 20,
+              transition: { duration: reducedMotion ? 0.1 : 0.3 }
+            }}
+            whileHover={{ 
+              scale: reducedMotion ? 1 : 1.1,
+              y: reducedMotion ? 0 : -2,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={{ 
+              scale: reducedMotion ? 1 : 0.9,
+              transition: { duration: 0.1 }
+            }}
+            aria-label="Scroll to top"
+          >
+            <ChevronUp className="w-6 h-6" />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

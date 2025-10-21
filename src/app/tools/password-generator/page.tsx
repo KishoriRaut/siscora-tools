@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Key, ArrowLeft, Copy, RefreshCw, Eye, EyeOff, Check, X } from 'lucide-react';
+import { Key, ArrowLeft, Copy, RefreshCw, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 
 interface PasswordOptions {
@@ -293,20 +293,21 @@ export default function PasswordGeneratorPage() {
                 <button
                   onClick={handleCopy}
                   disabled={!password}
-                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg transition-colors ${
+                  className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     copied
-                      ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-300'
+                      ? 'bg-green-500 text-white cursor-default focus:ring-green-500'
                       : password
-                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/30'
-                      : 'bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500 cursor-not-allowed'
+                      ? 'bg-blue-500 text-white hover:bg-blue-600 hover:shadow-lg focus:ring-blue-500 active:bg-blue-700'
+                      : 'bg-gray-300 text-gray-500 dark:bg-gray-600 dark:text-gray-400 cursor-not-allowed'
                   }`}
+                  aria-label={copied ? 'Password copied to clipboard' : 'Copy password to clipboard'}
                 >
                   <Copy className="w-4 h-4" />
                   {copied ? 'Copied!' : 'Copy Password'}
                 </button>
                 <button
                   onClick={generatePassword}
-                  className="px-4 py-3 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                  className="px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 hover:shadow-lg transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                   aria-label="Generate new password"
                 >
                   <RefreshCw className="w-4 h-4" />

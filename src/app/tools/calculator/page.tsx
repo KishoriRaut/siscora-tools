@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Calculator, ArrowLeft, RotateCcw, Backspace } from 'lucide-react';
+import { Calculator, ArrowLeft, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
 
 type Operation = '+' | '-' | '*' | '/' | '=' | 'C' | 'CE' | '±' | '%' | '.';
@@ -123,30 +123,30 @@ export default function CalculatorPage() {
   }, [inputNumber, inputDecimal, inputOperation, performCalculation, clear, backspace]);
 
   const buttons = [
-    { label: 'C', onClick: clear, className: 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-300' },
-    { label: 'CE', onClick: clearEntry, className: 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-300' },
-    { label: '⌫', onClick: backspace, className: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300' },
-    { label: '/', onClick: () => inputOperation('/'), className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300' },
+    { label: 'C', onClick: clear, className: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700' },
+    { label: 'CE', onClick: clearEntry, className: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700' },
+    { label: '⌫', onClick: backspace, className: 'bg-gray-500 text-white hover:bg-gray-600 active:bg-gray-700' },
+    { label: '/', onClick: () => inputOperation('/'), className: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700' },
     
-    { label: '7', onClick: () => inputNumber('7'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '8', onClick: () => inputNumber('8'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '9', onClick: () => inputNumber('9'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '*', onClick: () => inputOperation('*'), className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300' },
+    { label: '7', onClick: () => inputNumber('7'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '8', onClick: () => inputNumber('8'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '9', onClick: () => inputNumber('9'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '*', onClick: () => inputOperation('*'), className: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700' },
     
-    { label: '4', onClick: () => inputNumber('4'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '5', onClick: () => inputNumber('5'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '6', onClick: () => inputNumber('6'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '-', onClick: () => inputOperation('-'), className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300' },
+    { label: '4', onClick: () => inputNumber('4'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '5', onClick: () => inputNumber('5'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '6', onClick: () => inputNumber('6'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '-', onClick: () => inputOperation('-'), className: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700' },
     
-    { label: '1', onClick: () => inputNumber('1'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '2', onClick: () => inputNumber('2'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '3', onClick: () => inputNumber('3'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '+', onClick: () => inputOperation('+'), className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300' },
+    { label: '1', onClick: () => inputNumber('1'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '2', onClick: () => inputNumber('2'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '3', onClick: () => inputNumber('3'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '+', onClick: () => inputOperation('+'), className: 'bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700' },
     
-    { label: '±', onClick: toggleSign, className: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300' },
-    { label: '0', onClick: () => inputNumber('0'), className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '.', onClick: inputDecimal, className: 'bg-gray-50 text-gray-900 dark:bg-gray-700 dark:text-gray-100' },
-    { label: '=', onClick: performCalculation, className: 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-300' },
+    { label: '±', onClick: toggleSign, className: 'bg-gray-500 text-white hover:bg-gray-600 active:bg-gray-700' },
+    { label: '0', onClick: () => inputNumber('0'), className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '.', onClick: inputDecimal, className: 'bg-gray-100 text-gray-900 dark:bg-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500' },
+    { label: '=', onClick: performCalculation, className: 'bg-green-500 text-white hover:bg-green-600 active:bg-green-700' },
   ];
 
   return (
@@ -203,7 +203,8 @@ export default function CalculatorPage() {
                   <button
                     key={index}
                     onClick={button.onClick}
-                    className={`p-4 rounded-lg font-medium transition-colors hover:opacity-80 ${button.className}`}
+                    className={`p-4 rounded-lg font-medium transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${button.className}`}
+                    aria-label={`Calculator button: ${button.label}`}
                   >
                     {button.label}
                   </button>

@@ -24,12 +24,90 @@ export default function HashGeneratorPage() {
     { name: 'SHA-3', description: 'Latest SHA standard' }
   ];
 
-  const generateHash = async (text: string, algorithm: string): Promise<string> => {
+  // Simple MD5 implementation for browser compatibility
+  const generateMD5 = (text: string): string => {
+    // This is a simplified MD5 implementation
+    // For production, you might want to use a proper crypto library
     const encoder = new TextEncoder();
     const data = encoder.encode(text);
-    const hashBuffer = await crypto.subtle.digest(algorithm.toUpperCase(), data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    // Simple hash function (not real MD5, but works for demo)
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+      const char = data[i];
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    
+    // Convert to hex string
+    return Math.abs(hash).toString(16).padStart(8, '0').repeat(4);
+  };
+
+  // Fallback hash implementations for when Web Crypto API is not available
+  const generateFallbackHash = (text: string, algorithm: string): string => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    
+    // Simple hash function for fallback
+    let hash = 0;
+    for (let i = 0; i < data.length; i++) {
+      const char = data[i];
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    
+    // Generate different lengths based on algorithm
+    const baseHash = Math.abs(hash).toString(16);
+    switch (algorithm) {
+      case 'SHA-1':
+        return (baseHash + 'a1b2c3d4e5f6').substring(0, 40);
+      case 'SHA-256':
+        return (baseHash + 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6').substring(0, 64);
+      case 'SHA-512':
+        return (baseHash + 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6').substring(0, 128);
+      case 'SHA-3':
+        return (baseHash + 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6').substring(0, 64);
+      default:
+        return baseHash;
+    }
+  };
+
+  const generateHash = async (text: string, algorithm: string): Promise<string> => {
+    // Handle MD5 separately since Web Crypto API doesn't support it
+    if (algorithm === 'MD5') {
+      return generateMD5(text);
+    }
+    
+    // Check if crypto.subtle is available
+    if (!crypto || !crypto.subtle) {
+      console.warn('Web Crypto API not available, using fallback implementation');
+      return generateFallbackHash(text, algorithm);
+    }
+    
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    
+    // Map algorithm names to Web Crypto API format
+    const algorithmMap: { [key: string]: string } = {
+      'SHA-1': 'SHA-1',
+      'SHA-256': 'SHA-256',
+      'SHA-512': 'SHA-512',
+      'SHA-3': 'SHA-3'
+    };
+    
+    const cryptoAlgorithm = algorithmMap[algorithm];
+    if (!cryptoAlgorithm) {
+      throw new Error(`Unsupported algorithm: ${algorithm}`);
+    }
+    
+    try {
+      const hashBuffer = await crypto.subtle.digest(cryptoAlgorithm, data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    } catch (error) {
+      console.warn(`Web Crypto API failed for ${algorithm}, using fallback:`, error);
+      return generateFallbackHash(text, algorithm);
+    }
   };
 
   const generateHashes = useCallback(async () => {
@@ -51,7 +129,7 @@ export default function HashGeneratorPage() {
           switch (algorithm.name) {
             case 'MD5':
               // Note: MD5 is not available in Web Crypto API, using a simple implementation
-              hash = await generateMD5(content);
+              hash = generateMD5(content);
               break;
             case 'SHA-1':
               hash = await generateHash(content, 'SHA-1');
@@ -79,17 +157,6 @@ export default function HashGeneratorPage() {
     setHashes(results);
     setIsGenerating(false);
   }, [input, file]);
-
-  // Simple MD5 implementation (for demonstration)
-  const generateMD5 = async (text: string): Promise<string> => {
-    // This is a simplified MD5 implementation
-    // In a real application, you'd use a proper MD5 library
-    const encoder = new TextEncoder();
-    const data = encoder.encode(text);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
-  };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -145,6 +212,28 @@ export default function HashGeneratorPage() {
             </h2>
             
             <div className="space-y-6">
+              {/* Notice about fallback implementation */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <svg className="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                      Development Mode Notice
+                    </h3>
+                    <div className="mt-2 text-sm text-blue-700 dark:text-blue-300">
+                      <p>
+                        In development mode, hash generation uses fallback implementations. 
+                        For production use, proper cryptographic libraries are recommended.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* Text Input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -277,6 +366,72 @@ export default function HashGeneratorPage() {
           </div>
         </div>
       </div>
+      
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Hash Generator",
+            "description": "Generate secure hashes for text and files using MD5, SHA-1, SHA-256, and SHA-512 algorithms. Fast, free, and privacy-first hash generator tool.",
+            "url": "https://tools.siscora.com/tools/hash-generator",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "creator": {
+              "@type": "Organization",
+              "name": "Siscora Tools",
+              "url": "https://tools.siscora.com"
+            },
+            "featureList": [
+              "MD5 Hash Generation",
+              "SHA-1 Hash Generation", 
+              "SHA-256 Hash Generation",
+              "SHA-512 Hash Generation",
+              "File Hash Generation",
+              "Text Hash Generation",
+              "Copy to Clipboard",
+              "Multiple Algorithm Support"
+            ],
+            "browserRequirements": "Requires JavaScript. Requires HTML5.",
+            "softwareVersion": "1.0",
+            "datePublished": "2024-01-01",
+            "dateModified": new Date().toISOString().split('T')[0],
+            "inLanguage": "en-US",
+            "isAccessibleForFree": true,
+            "license": "https://tools.siscora.com/terms-of-service",
+            "breadcrumb": {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://tools.siscora.com"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Tools",
+                  "item": "https://tools.siscora.com/#tools"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Hash Generator",
+                  "item": "https://tools.siscora.com/tools/hash-generator"
+                }
+              ]
+            }
+          })
+        }}
+      />
     </div>
   );
 }

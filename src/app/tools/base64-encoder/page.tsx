@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Code, ArrowLeft, Copy, FileText, Upload, Download } from 'lucide-react';
+import { Code, ArrowLeft, Copy, Upload, Download } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Base64EncoderPage() {
@@ -194,7 +194,8 @@ export default function Base64EncoderPage() {
                 <button
                   onClick={handleEncode}
                   disabled={(!input.trim() && !file) || isProcessing}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 hover:shadow-lg disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  aria-label={mode === 'encode' ? 'Encode to Base64' : 'Decode from Base64'}
                 >
                   {isProcessing ? (
                     <>
@@ -210,7 +211,8 @@ export default function Base64EncoderPage() {
                 </button>
                 <button
                   onClick={clearAll}
-                  className="px-4 py-3 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                  className="px-4 py-3 bg-gray-500 text-white rounded-lg font-medium hover:bg-gray-600 hover:shadow-lg transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  aria-label="Clear all inputs and outputs"
                 >
                   Clear
                 </button>
@@ -228,13 +230,14 @@ export default function Base64EncoderPage() {
                 <button
                   onClick={handleCopy}
                   disabled={!output}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     copied
-                      ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-300'
+                      ? 'bg-green-500 text-white cursor-default focus:ring-green-500'
                       : output
-                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/30'
-                      : 'bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500 cursor-not-allowed'
+                      ? 'bg-blue-500 text-white hover:bg-blue-600 hover:shadow-lg focus:ring-blue-500 active:bg-blue-700'
+                      : 'bg-gray-300 text-gray-500 dark:bg-gray-600 dark:text-gray-400 cursor-not-allowed'
                   }`}
+                  aria-label={copied ? 'Output copied to clipboard' : 'Copy output to clipboard'}
                 >
                   <Copy className="w-4 h-4" />
                   {copied ? 'Copied!' : 'Copy'}
@@ -242,7 +245,8 @@ export default function Base64EncoderPage() {
                 {output && mode === 'encode' && (
                   <button
                     onClick={handleDownload}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 hover:shadow-lg transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                    aria-label="Download encoded output as file"
                   >
                     <Download className="w-4 h-4" />
                     Download

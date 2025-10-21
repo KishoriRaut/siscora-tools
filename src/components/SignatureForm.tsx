@@ -1,6 +1,6 @@
 'use client';
 
-import { SignatureData } from '@/app/page';
+import { SignatureData } from '@/app/tools/email-signature/page';
 import { useState } from 'react';
 import { Upload, User, Mail, Phone, Globe, MapPin, Linkedin, Twitter, Facebook, Instagram } from 'lucide-react';
 

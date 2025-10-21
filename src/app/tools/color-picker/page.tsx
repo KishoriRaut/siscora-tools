@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Palette, ArrowLeft, Copy, RefreshCw, Download } from 'lucide-react';
+import { Palette, ArrowLeft, Copy } from 'lucide-react';
 import Link from 'next/link';
 
 interface Color {
@@ -334,6 +334,7 @@ export default function ColorPickerPage() {
                         <button
                           onClick={() => handleCopy(color)}
                           className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                          aria-label={`Copy ${color.hex}`}
                         >
                           <Copy className="w-3 h-3" />
                         </button>
@@ -360,6 +361,7 @@ export default function ColorPickerPage() {
                         <button
                           onClick={() => handleCopy(color)}
                           className="p-1 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                          aria-label={`Copy ${color.hex}`}
                         >
                           <Copy className="w-3 h-3" />
                         </button>

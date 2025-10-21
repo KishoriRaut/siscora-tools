@@ -1,22 +1,42 @@
-# Email Signature Generator
+# DevTools Hub
 
-A modern, responsive Next.js application for creating professional email signatures. Built with TypeScript, Tailwind CSS, and React.
+A comprehensive collection of developer tools and utilities built with Next.js 15, React 19, and TypeScript.
 
-## Features
+## 🚀 Features
 
-- **Real-time Preview**: See your signature as you type
-- **Professional Templates**: Clean, modern signature designs
-- **Customizable Styling**: Choose colors, fonts, and sizes
-- **Social Media Integration**: Add LinkedIn, Twitter, Facebook, and Instagram links
-- **Logo Upload**: Include your company logo
-- **Multiple Export Options**: 
-  - Copy HTML to clipboard
-  - Download HTML file
-  - Download plain text version
-- **Responsive Design**: Works on desktop and mobile devices
-- **Dark Mode Support**: Automatic dark/light theme switching
+### Available Tools
 
-## Getting Started
+- **📧 Email Signature Generator** - Create professional email signatures with custom styling
+- **📱 QR Code Generator** - Generate QR codes for URLs, text, WiFi credentials, and more
+- **🔑 Password Generator** - Generate secure passwords with customizable options
+- **🎨 Color Picker** - Pick colors and generate beautiful color palettes
+- **#️⃣ Hash Generator** - Generate MD5, SHA-1, SHA-256, SHA-512 hashes
+- **🔤 Base64 Encoder/Decoder** - Encode and decode Base64 strings with file support
+- **📊 Text Counter** - Count words, characters, lines, and analyze text
+- **🖼️ Image Converter** - Convert images between different formats (JPG, PNG, WebP, BMP)
+- **🧮 Calculator** - Advanced calculator with history and keyboard support
+- **📝 Text Counter** - Comprehensive text analysis and statistics
+
+### Key Features
+
+- **Modern UI/UX** - Clean, responsive design with dark mode support
+- **Accessibility** - WCAG compliant with proper ARIA labels and keyboard navigation
+- **Mobile Responsive** - Works perfectly on all device sizes
+- **TypeScript** - Full type safety throughout the application
+- **Performance** - Optimized with Next.js 15 and React 19
+- **Developer Experience** - Hot reload, linting, and component library
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **React**: React 19 with Server Components
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **Icons**: Lucide React
+- **Forms**: React Hook Form with Zod validation
+- **Utilities**: clsx, tailwind-merge
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -28,7 +48,7 @@ A modern, responsive Next.js application for creating professional email signatu
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd email-signature-generator
+cd devtools-hub
 ```
 
 2. Install dependencies:
@@ -43,70 +63,80 @@ npm run dev
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Usage
-
-1. **Fill in your details**: Enter your personal and contact information
-2. **Add social media links**: Include your professional social media profiles
-3. **Upload a logo**: Add your company logo (optional)
-4. **Customize styling**: Choose colors, fonts, and sizes
-5. **Preview your signature**: See how it will look in emails
-6. **Export**: Copy to clipboard or download as HTML/text file
-
-## How to Use Your Signature
-
-### For Gmail:
-1. Go to Settings → General → Signature
-2. Paste your HTML signature
-3. Save changes
-
-### For Outlook:
-1. Go to File → Options → Mail → Signatures
-2. Create a new signature
-3. Paste your HTML signature
-4. Set as default
-
-### For Apple Mail:
-1. Go to Mail → Preferences → Signatures
-2. Create a new signature
-3. Paste your HTML signature
-4. Set as default
-
-## Technologies Used
-
-- **Next.js 15**: React framework with App Router
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
-- **Lucide React**: Beautiful icons
-- **React Hook Form**: Form handling
-- **Zod**: Schema validation
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/
-├── app/
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Main page
-│   └── globals.css         # Global styles
-└── components/
-    ├── SignatureForm.tsx   # Form component
-    ├── SignaturePreview.tsx # Preview component
-    ├── CopyButton.tsx      # Copy functionality
-    └── ExportOptions.tsx   # Export options
+├── app/                    # Next.js App Router
+│   ├── tools/             # Individual tool pages
+│   │   ├── email-signature/
+│   │   ├── qr-generator/
+│   │   ├── password-generator/
+│   │   ├── color-picker/
+│   │   ├── hash-generator/
+│   │   ├── base64-encoder/
+│   │   ├── text-counter/
+│   │   ├── image-converter/
+│   │   └── calculator/
+│   ├── layout.tsx         # Root layout
+│   └── page.tsx           # Home page
+├── components/            # Reusable components
+│   ├── ui/               # UI components
+│   └── Navigation.tsx    # Main navigation
+├── lib/                  # Utility functions
+└── components/           # Original email signature components
 ```
 
-## Contributing
+## 🎨 Customization
+
+### Adding New Tools
+
+1. Create a new directory in `src/app/tools/`
+2. Add a `page.tsx` file with your tool component
+3. Update the navigation in `src/components/Navigation.tsx`
+4. Add the tool to the home page in `src/app/page.tsx`
+
+### Styling
+
+The app uses Tailwind CSS with a custom design system. Key design tokens:
+
+- **Colors**: Blue primary, gray neutrals, semantic colors
+- **Typography**: Geist Sans and Geist Mono fonts
+- **Spacing**: Consistent spacing scale
+- **Components**: Reusable UI components in `src/components/ui/`
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Deploy automatically
+
+### Other Platforms
+
+The app can be deployed to any platform that supports Next.js:
+
+```bash
+npm run build
+npm start
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test thoroughly
+4. Add tests if applicable
 5. Submit a pull request
 
-## License
+## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
 
-## Support
+## 🙏 Acknowledgments
 
-If you encounter any issues or have questions, please open an issue on GitHub.
+- Built with [Next.js](https://nextjs.org/)
+- Icons by [Lucide](https://lucide.dev/)
+- Styling with [Tailwind CSS](https://tailwindcss.com/)
+- Type safety with [TypeScript](https://www.typescriptlang.org/)

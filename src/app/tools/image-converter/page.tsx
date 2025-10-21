@@ -36,7 +36,7 @@ export default function ImageConverterPage() {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const img = new Image();
+      const img = new window.Image();
       
       img.onload = () => {
         canvas.width = img.width;
@@ -211,6 +211,7 @@ export default function ImageConverterPage() {
                     value={quality}
                     onChange={(e) => setQuality(parseInt(e.target.value))}
                     className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                    aria-label="Quality slider"
                   />
                   <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
                     <span>Low (10%)</span>

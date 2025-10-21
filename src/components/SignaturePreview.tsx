@@ -1,6 +1,6 @@
 'use client';
 
-import { SignatureData } from '@/app/page';
+import { SignatureData } from '@/app/tools/email-signature/page';
 import { Linkedin, Twitter, Facebook, Instagram, Mail, Phone, Globe, MapPin } from 'lucide-react';
 
 interface SignaturePreviewProps {
