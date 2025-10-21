@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Email Signature Generator
+
+A modern, responsive Next.js application for creating professional email signatures. Built with TypeScript, Tailwind CSS, and React.
+
+## Features
+
+- **Real-time Preview**: See your signature as you type
+- **Professional Templates**: Clean, modern signature designs
+- **Customizable Styling**: Choose colors, fonts, and sizes
+- **Social Media Integration**: Add LinkedIn, Twitter, Facebook, and Instagram links
+- **Logo Upload**: Include your company logo
+- **Multiple Export Options**: 
+  - Copy HTML to clipboard
+  - Download HTML file
+  - Download plain text version
+- **Responsive Design**: Works on desktop and mobile devices
+- **Dark Mode Support**: Automatic dark/light theme switching
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd email-signature-generator
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. **Fill in your details**: Enter your personal and contact information
+2. **Add social media links**: Include your professional social media profiles
+3. **Upload a logo**: Add your company logo (optional)
+4. **Customize styling**: Choose colors, fonts, and sizes
+5. **Preview your signature**: See how it will look in emails
+6. **Export**: Copy to clipboard or download as HTML/text file
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to Use Your Signature
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### For Gmail:
+1. Go to Settings → General → Signature
+2. Paste your HTML signature
+3. Save changes
 
-## Deploy on Vercel
+### For Outlook:
+1. Go to File → Options → Mail → Signatures
+2. Create a new signature
+3. Paste your HTML signature
+4. Set as default
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### For Apple Mail:
+1. Go to Mail → Preferences → Signatures
+2. Create a new signature
+3. Paste your HTML signature
+4. Set as default
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Technologies Used
+
+- **Next.js 15**: React framework with App Router
+- **TypeScript**: Type-safe JavaScript
+- **Tailwind CSS**: Utility-first CSS framework
+- **Lucide React**: Beautiful icons
+- **React Hook Form**: Form handling
+- **Zod**: Schema validation
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── layout.tsx          # Root layout
+│   ├── page.tsx            # Main page
+│   └── globals.css         # Global styles
+└── components/
+    ├── SignatureForm.tsx   # Form component
+    ├── SignaturePreview.tsx # Preview component
+    ├── CopyButton.tsx      # Copy functionality
+    └── ExportOptions.tsx   # Export options
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Support
+
+If you encounter any issues or have questions, please open an issue on GitHub.
