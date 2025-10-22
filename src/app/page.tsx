@@ -80,13 +80,55 @@ export default function Home() {
   ];
 
   const allTools = [
+    // Text & String Tools
     {
-      name: 'Email Signature Generator',
-      href: '/tools/email-signature',
-      icon: Mail,
-      description: 'Create professional email signatures with custom styling',
+      name: 'Text Case Converter',
+      href: '/tools/text-case-converter',
+      icon: Type,
+      description: 'Convert text between different cases',
       color: 'from-blue-500 to-blue-600',
-      category: 'communication'
+      category: 'utilities'
+    },
+    {
+      name: 'Text Diff Checker',
+      href: '/tools/text-diff-checker',
+      icon: FileText,
+      description: 'Compare two texts and see differences',
+      color: 'from-green-500 to-emerald-600',
+      category: 'utilities'
+    },
+    {
+      name: 'Lorem Ipsum Generator',
+      href: '/tools/lorem-ipsum-generator',
+      icon: FileText,
+      description: 'Generate placeholder text for designs',
+      color: 'from-purple-500 to-violet-600',
+      category: 'utilities'
+    },
+    {
+      name: 'Text to Binary Converter',
+      href: '/tools/text-binary-converter',
+      icon: Code,
+      description: 'Convert text to binary and vice versa',
+      color: 'from-indigo-500 to-blue-600',
+      category: 'development'
+    },
+    {
+      name: 'String Length Calculator',
+      href: '/tools/string-length-calculator',
+      icon: Hash,
+      description: 'Analyze text with detailed statistics',
+      color: 'from-orange-500 to-red-600',
+      category: 'utilities'
+    },
+    // Security & Encryption Tools
+    {
+      name: 'Password Generator',
+      href: '/tools/password-generator',
+      icon: Key,
+      description: 'Generate secure, random passwords for your accounts',
+      color: 'from-red-500 to-pink-600',
+      category: 'security'
     },
     {
       name: 'Hash Generator',
@@ -97,13 +139,30 @@ export default function Home() {
       category: 'security'
     },
     {
-      name: 'Password Generator',
-      href: '/tools/password-generator',
-      icon: Key,
-      description: 'Generate secure, random passwords for your accounts',
+      name: 'JWT Decoder',
+      href: '/tools/jwt-decoder',
+      icon: Shield,
+      description: 'Decode and analyze JWT tokens',
+      color: 'from-blue-500 to-cyan-600',
+      category: 'security'
+    },
+    {
+      name: 'UUID Generator',
+      href: '/tools/uuid-generator',
+      icon: Hash,
+      description: 'Generate universally unique identifiers',
+      color: 'from-teal-500 to-cyan-600',
+      category: 'security'
+    },
+    {
+      name: 'Password Strength Checker',
+      href: '/tools/password-strength-checker',
+      icon: Shield,
+      description: 'Analyze password security and strength',
       color: 'from-orange-500 to-red-600',
       category: 'security'
     },
+    // Web Development Tools
     {
       name: 'Base64 Encoder',
       href: '/tools/base64-encoder',
@@ -113,13 +172,30 @@ export default function Home() {
       category: 'development'
     },
     {
-      name: 'QR Code Generator',
-      href: '/tools/qr-generator',
-      icon: QrCode,
-      description: 'Create QR codes for URLs, text, and contact information',
-      color: 'from-blue-500 to-cyan-600',
+      name: 'URL Shortener',
+      href: '/tools/url-shortener',
+      icon: Mail,
+      description: 'Create short, memorable URLs',
+      color: 'from-blue-500 to-indigo-600',
       category: 'development'
     },
+    {
+      name: 'JSON Formatter',
+      href: '/tools/json-formatter',
+      icon: Code,
+      description: 'Format and validate JSON data',
+      color: 'from-green-500 to-teal-600',
+      category: 'development'
+    },
+    {
+      name: 'HTML Encoder/Decoder',
+      href: '/tools/html-encoder-decoder',
+      icon: Code,
+      description: 'Encode and decode HTML entities',
+      color: 'from-purple-500 to-pink-600',
+      category: 'development'
+    },
+    // Design & Color Tools
     {
       name: 'Color Picker',
       href: '/tools/color-picker',
@@ -129,13 +205,30 @@ export default function Home() {
       category: 'design'
     },
     {
+      name: 'Color Palette Generator',
+      href: '/tools/color-palette-generator',
+      icon: Palette,
+      description: 'Generate beautiful color palettes',
+      color: 'from-violet-500 to-purple-600',
+      category: 'design'
+    },
+    {
+      name: 'CSS Gradient Generator',
+      href: '/tools/css-gradient-generator',
+      icon: Palette,
+      description: 'Create CSS gradients with visual editor',
+      color: 'from-indigo-500 to-purple-600',
+      category: 'design'
+    },
+    {
       name: 'Image Converter',
       href: '/tools/image-converter',
       icon: Image,
       description: 'Convert images between different formats seamlessly',
-      color: 'from-indigo-500 to-purple-600',
+      color: 'from-cyan-500 to-blue-600',
       category: 'design'
     },
+    // Calculator Tools
     {
       name: 'Calculator',
       href: '/tools/calculator',
@@ -144,6 +237,40 @@ export default function Home() {
       color: 'from-violet-500 to-pink-600',
       category: 'utilities'
     },
+    {
+      name: 'Percentage Calculator',
+      href: '/tools/percentage-calculator',
+      icon: Calculator,
+      description: 'Calculate percentages, tips, and discounts',
+      color: 'from-green-500 to-emerald-600',
+      category: 'utilities'
+    },
+    {
+      name: 'Unit Converter',
+      href: '/tools/unit-converter',
+      icon: Calculator,
+      description: 'Convert between different units of measurement',
+      color: 'from-blue-500 to-cyan-600',
+      category: 'utilities'
+    },
+    // Communication Tools
+    {
+      name: 'Email Signature Generator',
+      href: '/tools/email-signature',
+      icon: Mail,
+      description: 'Create professional email signatures with custom styling',
+      color: 'from-blue-500 to-blue-600',
+      category: 'communication'
+    },
+    {
+      name: 'QR Code Generator',
+      href: '/tools/qr-generator',
+      icon: QrCode,
+      description: 'Create QR codes for URLs, text, and contact information',
+      color: 'from-blue-500 to-cyan-600',
+      category: 'communication'
+    },
+    // Utilities
     {
       name: 'Text Counter',
       href: '/tools/text-counter',
@@ -238,7 +365,7 @@ export default function Home() {
               className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
               variants={fadeInUp}
             >
-              Explore 20+ developer, design, and everyday tools that work instantly in your browser.
+              Explore 21+ developer, design, and everyday tools that work instantly in your browser.
             </motion.p>
             
             {/* CTA Buttons */}

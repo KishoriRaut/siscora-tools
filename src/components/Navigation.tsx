@@ -24,7 +24,9 @@ import {
   ChevronRight,
   Wrench,
   Search,
-  Filter
+  Filter,
+  Type,
+  Link
 } from 'lucide-react';
 
 const mainNavigation = [
@@ -43,6 +45,142 @@ const mainNavigation = [
 ];
 
 const toolCategories = {
+  'Text & String': [
+    {
+      name: 'Text Case Converter',
+      href: '/tools/text-case-converter',
+      icon: Type,
+      description: 'Convert text between different cases'
+    },
+    {
+      name: 'Text Diff Checker',
+      href: '/tools/text-diff-checker',
+      icon: FileText,
+      description: 'Compare two texts and see differences'
+    },
+    {
+      name: 'Lorem Ipsum Generator',
+      href: '/tools/lorem-ipsum-generator',
+      icon: FileText,
+      description: 'Generate placeholder text for designs'
+    },
+    {
+      name: 'Text to Binary Converter',
+      href: '/tools/text-binary-converter',
+      icon: Code,
+      description: 'Convert text to binary and vice versa'
+    },
+    {
+      name: 'String Length Calculator',
+      href: '/tools/string-length-calculator',
+      icon: Hash,
+      description: 'Analyze text with detailed statistics'
+    }
+  ],
+  'Security & Encryption': [
+    {
+      name: 'Password Generator',
+      href: '/tools/password-generator',
+      icon: Key,
+      description: 'Generate secure passwords with custom options'
+    },
+    {
+      name: 'Hash Generator',
+      href: '/tools/hash-generator',
+      icon: Hash,
+      description: 'Generate MD5, SHA-1, SHA-256 hashes'
+    },
+    {
+      name: 'JWT Decoder',
+      href: '/tools/jwt-decoder',
+      icon: Shield,
+      description: 'Decode and analyze JWT tokens'
+    },
+    {
+      name: 'UUID Generator',
+      href: '/tools/uuid-generator',
+      icon: Hash,
+      description: 'Generate universally unique identifiers'
+    },
+    {
+      name: 'Password Strength Checker',
+      href: '/tools/password-strength-checker',
+      icon: Shield,
+      description: 'Analyze password security and strength'
+    }
+  ],
+  'Web Development': [
+    {
+      name: 'Base64 Encoder',
+      href: '/tools/base64-encoder',
+      icon: Code,
+      description: 'Encode and decode Base64 strings'
+    },
+    {
+      name: 'URL Shortener',
+      href: '/tools/url-shortener',
+      icon: Link,
+      description: 'Create short, memorable URLs'
+    },
+    {
+      name: 'JSON Formatter',
+      href: '/tools/json-formatter',
+      icon: Code,
+      description: 'Format and validate JSON data'
+    },
+    {
+      name: 'HTML Encoder/Decoder',
+      href: '/tools/html-encoder-decoder',
+      icon: Code,
+      description: 'Encode and decode HTML entities'
+    }
+  ],
+  'Design & Color': [
+    {
+      name: 'Color Picker',
+      href: '/tools/color-picker',
+      icon: Palette,
+      description: 'Pick colors and get hex, RGB, HSL values'
+    },
+    {
+      name: 'Color Palette Generator',
+      href: '/tools/color-palette-generator',
+      icon: Palette,
+      description: 'Generate beautiful color palettes'
+    },
+    {
+      name: 'CSS Gradient Generator',
+      href: '/tools/css-gradient-generator',
+      icon: Palette,
+      description: 'Create CSS gradients with visual editor'
+    },
+    {
+      name: 'Image Converter',
+      href: '/tools/image-converter',
+      icon: Image,
+      description: 'Convert images between different formats'
+    }
+  ],
+  'Calculators': [
+    {
+      name: 'Calculator',
+      href: '/tools/calculator',
+      icon: Calculator,
+      description: 'Advanced calculator with multiple functions'
+    },
+    {
+      name: 'Percentage Calculator',
+      href: '/tools/percentage-calculator',
+      icon: Calculator,
+      description: 'Calculate percentages, tips, and discounts'
+    },
+    {
+      name: 'Unit Converter',
+      href: '/tools/unit-converter',
+      icon: Calculator,
+      description: 'Convert between different units of measurement'
+    }
+  ],
   'Communication': [
     {
       name: 'Email Signature',
@@ -57,54 +195,12 @@ const toolCategories = {
       description: 'Create QR codes for URLs, text, and more'
     }
   ],
-  'Security': [
-    {
-      name: 'Password Generator',
-      href: '/tools/password-generator',
-      icon: Key,
-      description: 'Generate secure passwords with custom options'
-    },
-    {
-      name: 'Hash Generator',
-      href: '/tools/hash-generator',
-      icon: Hash,
-      description: 'Generate MD5, SHA-1, SHA-256 hashes'
-    }
-  ],
-  'Development': [
-    {
-      name: 'Base64 Encoder',
-      href: '/tools/base64-encoder',
-      icon: Code,
-      description: 'Encode and decode Base64 strings'
-    },
+  'Utilities': [
     {
       name: 'Text Counter',
       href: '/tools/text-counter',
       icon: FileText,
       description: 'Count words, characters, and lines in text'
-    }
-  ],
-  'Design': [
-    {
-      name: 'Color Picker',
-      href: '/tools/color-picker',
-      icon: Palette,
-      description: 'Pick colors and get hex, RGB, HSL values'
-    },
-    {
-      name: 'Image Converter',
-      href: '/tools/image-converter',
-      icon: Image,
-      description: 'Convert images between different formats'
-    }
-  ],
-  'Utilities': [
-    {
-      name: 'Calculator',
-      href: '/tools/calculator',
-      icon: Calculator,
-      description: 'Advanced calculator with multiple functions'
     }
   ]
 };
@@ -193,7 +289,7 @@ export function Navigation() {
       `}>
         <div className="p-6 h-full flex flex-col">
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-linear-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <Code className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -221,7 +317,7 @@ export function Navigation() {
                     }
                   `}
                 >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
+                  <Icon className="w-5 h-5 shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="font-medium truncate">{item.name}</div>
                     <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
@@ -238,7 +334,7 @@ export function Navigation() {
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
                 className="flex items-center gap-3 px-3 py-2 w-full text-left rounded-lg transition-colors duration-200 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
               >
-                <Wrench className="w-5 h-5 flex-shrink-0" />
+                <Wrench className="w-5 h-5 shrink-0" />
                 <div className="flex-1 min-w-0">
                   <div className="font-medium truncate">Tools</div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
@@ -246,9 +342,9 @@ export function Navigation() {
                   </div>
                 </div>
                 {isToolsOpen ? (
-                  <ChevronDown className="w-4 h-4 flex-shrink-0" />
+                  <ChevronDown className="w-4 h-4 shrink-0" />
                 ) : (
-                  <ChevronRight className="w-4 h-4 flex-shrink-0" />
+                  <ChevronRight className="w-4 h-4 shrink-0" />
                 )}
               </button>
 
@@ -315,7 +411,7 @@ export function Navigation() {
                               }
                             `}
                           >
-                            <Icon className="w-4 h-4 flex-shrink-0" />
+                            <Icon className="w-4 h-4 shrink-0" />
                             <div className="flex-1 min-w-0">
                               <div className="font-medium truncate text-sm">{tool.name}</div>
                               <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
@@ -349,7 +445,7 @@ export function Navigation() {
                                   }
                                 `}
                               >
-                                <Icon className="w-4 h-4 flex-shrink-0" />
+                                <Icon className="w-4 h-4 shrink-0" />
                                 <div className="flex-1 min-w-0">
                                   <div className="font-medium truncate text-sm">{tool.name}</div>
                                   <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
@@ -389,7 +485,7 @@ export function Navigation() {
                       }
                     `}
                   >
-                    <Icon className="w-3 h-3 flex-shrink-0" />
+                    <Icon className="w-3 h-3 shrink-0" />
                     <span className="truncate">{link.name}</span>
                   </Link>
                 );

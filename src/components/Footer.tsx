@@ -9,7 +9,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-violet-600 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-linear-to-r from-blue-500 to-violet-600 rounded-lg flex items-center justify-center shadow-lg">
                 <Code className="w-6 h-6 text-white" />
               </div>
               <div>
@@ -22,10 +22,10 @@ export function Footer() {
               all working directly in your browser.
             </p>
             <div className="flex space-x-4">
-              <a href="mailto:support@tools.siscora.com" className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800">
+              <a href="mailto:support@tools.siscora.com" className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800" title="Send us an email">
                 <Mail className="w-5 h-5" />
               </a>
-              <a href="tel:+1234567890" className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800">
+              <a href="tel:+1234567890" className="text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-gray-800" title="Call us">
                 <Phone className="w-5 h-5" />
               </a>
             </div>
