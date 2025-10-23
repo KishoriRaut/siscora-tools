@@ -253,6 +253,22 @@ export default function Home() {
       color: 'from-blue-500 to-cyan-600',
       category: 'utilities'
     },
+    {
+      name: 'GPA to Percentage',
+      href: '/tools/gpa-to-percentage',
+      icon: Calculator,
+      description: 'Convert GPA to percentage on different scales',
+      color: 'from-purple-500 to-violet-600',
+      category: 'utilities'
+    },
+    {
+      name: 'Percentage to GPA',
+      href: '/tools/percentage-to-gpa',
+      icon: Calculator,
+      description: 'Convert percentage grades to GPA',
+      color: 'from-pink-500 to-rose-600',
+      category: 'utilities'
+    },
     // Communication Tools
     {
       name: 'Email Signature Generator',

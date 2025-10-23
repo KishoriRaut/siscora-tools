@@ -26,7 +26,8 @@ import {
   Search,
   Filter,
   Type,
-  Link
+  Link as LinkIcon,
+  GraduationCap
 } from 'lucide-react';
 
 const mainNavigation = [
@@ -119,7 +120,7 @@ const toolCategories = {
     {
       name: 'URL Shortener',
       href: '/tools/url-shortener',
-      icon: Link,
+      icon: LinkIcon,
       description: 'Create short, memorable URLs'
     },
     {
@@ -173,6 +174,18 @@ const toolCategories = {
       href: '/tools/percentage-calculator',
       icon: Calculator,
       description: 'Calculate percentages, tips, and discounts'
+    },
+    {
+      name: 'GPA to Percentage',
+      href: '/tools/gpa-to-percentage',
+      icon: GraduationCap,
+      description: 'Convert GPA to percentage on different scales'
+    },
+    {
+      name: 'Percentage to GPA',
+      href: '/tools/percentage-to-gpa',
+      icon: GraduationCap,
+      description: 'Convert percentage grades to GPA'
     },
     {
       name: 'Unit Converter',
