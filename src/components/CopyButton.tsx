@@ -1,16 +1,29 @@
 'use client';
 
+import { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 
 interface CopyButtonProps {
-  onCopy: () => void;
-  copied: boolean;
+  text: string;
+  label?: string;
 }
 
-export function CopyButton({ onCopy, copied }: CopyButtonProps) {
+export function CopyButton({ text, label = 'Copy' }: CopyButtonProps) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
   return (
     <button
-      onClick={onCopy}
+      onClick={handleCopy}
       disabled={copied}
       className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
         copied
@@ -27,7 +40,7 @@ export function CopyButton({ onCopy, copied }: CopyButtonProps) {
       ) : (
         <>
           <Copy className="w-4 h-4" />
-          Copy HTML
+          {label}
         </>
       )}
     </button>

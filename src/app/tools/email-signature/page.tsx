@@ -44,16 +44,8 @@ export default function EmailSignaturePage() {
     size: '12px'
   });
 
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(generateHTMLSignature(signatureData));
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy: ', err);
-    }
+  const generateSignatureText = () => {
+    return generateHTMLSignature(signatureData);
   };
 
   const generateHTMLSignature = (data: SignatureData): string => {
@@ -130,7 +122,7 @@ export default function EmailSignaturePage() {
                 Preview
               </h2>
               <div className="flex gap-2">
-                <CopyButton onCopy={handleCopy} copied={copied} />
+                <CopyButton text={generateSignatureText()} label="Copy HTML" />
                 <ExportOptions data={signatureData} />
               </div>
             </div>
