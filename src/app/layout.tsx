@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { StructuredData } from "@/components/StructuredData";
+import { DarkModeProvider } from "@/contexts/DarkModeContext";
 
 export const metadata: Metadata = {
   title: {
@@ -74,7 +75,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: '6zCnxtaySQY8ZlPBg_ETKIYd_hPhWH5tpOksR2IKF-8',
+    google: 'GWxCu5obRdDCgCLi-XYQv3XvxhGvCE2RHo-aMCYtmHM',
     // yandex: 'your-yandex-verification-code',
     // bing: 'your-bing-verification-code',
   },
@@ -94,20 +95,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <StructuredData />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const savedTheme = localStorage.getItem('theme');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const shouldBeDark = savedTheme === 'dark' || (savedTheme === null && systemPrefersDark);
+                if (shouldBeDark) {
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <body
         className="antialiased font-sans"
       >
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-          <Header />
-          <main className="pt-16">
-            {children}
-          </main>
-          <Footer />
-        </div>
+        <DarkModeProvider>
+          <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <Header />
+            <main className="pt-16">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </DarkModeProvider>
       </body>
     </html>
   );
