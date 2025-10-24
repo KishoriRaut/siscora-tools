@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, ArrowRightLeft, CalendarDays, Globe, Share2 } from 'lucide-react';
+import { Calendar, ArrowRightLeft, CalendarDays, Globe, Share2, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -160,21 +161,31 @@ export default function DateConverterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 py-12">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-xl">
-              <Calendar className="w-8 h-8 text-white" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                Date Converter
-              </h1>
-              <p className="text-xl text-gray-600">
-                Convert between Nepali and English dates
-              </p>
+        <div className="mb-8">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Tools
+          </Link>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-16 h-16 bg-linear-to-r from-blue-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-xl">
+                <Calendar className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                  Date Converter
+                </h1>
+                <p className="text-xl text-gray-600">
+                  Convert between Nepali and English dates
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -378,7 +389,7 @@ export default function DateConverterPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <Button
             onClick={handleConvert}
-            className="bg-gradient-to-r from-blue-600 to-violet-600 text-white px-8 py-3 rounded-xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
+            className="bg-linear-to-r from-blue-600 to-violet-600 text-white px-8 py-3 rounded-xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
           >
             {conversionDirection === 'nepali-to-english' ? 'Convert to English' : 'Convert to Nepali'}
           </Button>

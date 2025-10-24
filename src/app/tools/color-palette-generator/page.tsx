@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/CopyButton';
-import { Palette, RefreshCw, Download, Settings } from 'lucide-react';
+import { Palette, RefreshCw, Download, Settings, ArrowLeft } from 'lucide-react';
 
 interface Color {
   hex: string;
@@ -224,18 +225,28 @@ export default function ColorPaletteGenerator() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-pink-100 dark:bg-pink-900/20 rounded-lg flex items-center justify-center">
-              <Palette className="w-6 h-6 text-pink-600 dark:text-pink-400" />
+        <div className="mb-8">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Tools
+          </Link>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-pink-100 dark:bg-pink-900/20 rounded-lg flex items-center justify-center">
+                <Palette className="w-6 h-6 text-pink-600 dark:text-pink-400" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Color Palette Generator
+              </h1>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Color Palette Generator
-            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Generate beautiful color palettes for your designs. Choose from different color harmony types and customize the results.
+            </p>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Generate beautiful color palettes for your designs. Choose from different color harmony types and customize the results.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -311,6 +322,7 @@ export default function ColorPaletteGenerator() {
                   value={options.count}
                   onChange={(e) => setOptions({...options, count: parseInt(e.target.value) || 5})}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  aria-label="Number of colors"
                 />
               </div>
 
@@ -326,6 +338,7 @@ export default function ColorPaletteGenerator() {
                   value={options.saturation}
                   onChange={(e) => setOptions({...options, saturation: parseInt(e.target.value)})}
                   className="w-full"
+                  aria-label="Saturation level"
                 />
               </div>
 
@@ -341,6 +354,7 @@ export default function ColorPaletteGenerator() {
                   value={options.lightness}
                   onChange={(e) => setOptions({...options, lightness: parseInt(e.target.value)})}
                   className="w-full"
+                  aria-label="Lightness level"
                 />
               </div>
 

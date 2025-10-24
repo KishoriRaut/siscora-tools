@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/CopyButton';
-import { Palette, RefreshCw, Download, Eye } from 'lucide-react';
+import { Palette, RefreshCw, Download, Eye, ArrowLeft } from 'lucide-react';
 
 interface GradientStop {
   color: string;
@@ -144,18 +145,28 @@ export default function CSSGradientGenerator() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-              <Palette className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+        <div className="mb-8">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Tools
+          </Link>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
+                <Palette className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                CSS Gradient Generator
+              </h1>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              CSS Gradient Generator
-            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Create beautiful CSS gradients with a visual editor. Generate linear, radial, and conic gradients with custom colors and stops.
+            </p>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Create beautiful CSS gradients with a visual editor. Generate linear, radial, and conic gradients with custom colors and stops.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -259,6 +270,7 @@ export default function CSSGradientGenerator() {
                         value={stop.color}
                         onChange={(e) => updateStop(index, 'color', e.target.value)}
                         className="w-8 h-8 border border-gray-300 dark:border-gray-600 rounded"
+                        aria-label={`Color ${index + 1}`}
                       />
                       <input
                         type="range"
@@ -266,6 +278,7 @@ export default function CSSGradientGenerator() {
                         max="100"
                         value={stop.position}
                         onChange={(e) => updateStop(index, 'position', parseInt(e.target.value))}
+                        aria-label={`Position ${index + 1}`}
                         className="flex-1"
                       />
                       <span className="text-sm text-gray-600 dark:text-gray-400 w-12">
@@ -406,9 +419,9 @@ export default function CSSGradientGenerator() {
             <div>
               <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">Linear Gradients</h4>
               <div className="space-y-2">
-                <div className="h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded"></div>
-                <div className="h-8 bg-gradient-to-b from-green-400 to-blue-500 rounded"></div>
-                <div className="h-8 bg-gradient-to-r from-pink-500 to-red-500 rounded"></div>
+                <div className="h-8 bg-linear-to-r from-blue-500 to-purple-600 rounded"></div>
+                <div className="h-8 bg-linear-to-b from-green-400 to-blue-500 rounded"></div>
+                <div className="h-8 bg-linear-to-r from-pink-500 to-red-500 rounded"></div>
               </div>
             </div>
             <div>

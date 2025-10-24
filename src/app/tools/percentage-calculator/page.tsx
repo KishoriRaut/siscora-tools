@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/CopyButton';
-import { Calculator, Percent, TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
+import { Calculator, Percent, TrendingUp, TrendingDown, DollarSign, ArrowLeft } from 'lucide-react';
 
 interface CalculationResult {
   original: number;
@@ -174,18 +175,28 @@ export default function PercentageCalculator() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-              <Calculator className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+        <div className="mb-8">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Tools
+          </Link>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+                <Calculator className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Percentage Calculator
+              </h1>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Percentage Calculator
-            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Calculate percentages, tips, discounts, and percentage changes. Perfect for financial calculations and everyday math.
+            </p>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Calculate percentages, tips, discounts, and percentage changes. Perfect for financial calculations and everyday math.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

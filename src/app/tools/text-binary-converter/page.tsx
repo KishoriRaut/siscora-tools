@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/CopyButton';
-import { Binary, Type, ArrowRightLeft, Download } from 'lucide-react';
+import { Binary, Type, ArrowRightLeft, Download, ArrowLeft } from 'lucide-react';
 
 export default function TextBinaryConverter() {
   const [inputText, setInputText] = useState('');
@@ -70,18 +71,28 @@ export default function TextBinaryConverter() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/20 rounded-lg flex items-center justify-center">
-              <Binary className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+        <div className="mb-8">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Tools
+          </Link>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/20 rounded-lg flex items-center justify-center">
+                <Binary className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Text to Binary Converter
+              </h1>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Text to Binary Converter
-            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Convert text to binary code and binary code back to text. Perfect for encoding messages, learning binary, and data processing.
+            </p>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Convert text to binary code and binary code back to text. Perfect for encoding messages, learning binary, and data processing.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

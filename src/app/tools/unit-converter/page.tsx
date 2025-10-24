@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/CopyButton';
-import { ArrowRightLeft, Ruler, Weight, Thermometer, Clock, Volume } from 'lucide-react';
+import { ArrowRightLeft, Ruler, Weight, Thermometer, Clock, Volume, ArrowLeft } from 'lucide-react';
 
 interface ConversionCategory {
   name: string;
@@ -169,18 +170,28 @@ export default function UnitConverter() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
-              <ArrowRightLeft className="w-6 h-6 text-green-600 dark:text-green-400" />
+        <div className="mb-8">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Tools
+          </Link>
+          
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
+                <ArrowRightLeft className="w-6 h-6 text-green-600 dark:text-green-400" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Unit Converter
+              </h1>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Unit Converter
-            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Convert between different units of measurement. Support for length, weight, temperature, time, and volume conversions.
+            </p>
           </div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Convert between different units of measurement. Support for length, weight, temperature, time, and volume conversions.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -240,6 +251,7 @@ export default function UnitConverter() {
                     value={fromUnit}
                     onChange={(e) => setFromUnit(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="From unit"
                   >
                     {Object.entries(category.units).map(([key, unit]) => (
                       <option key={key} value={key}>
@@ -256,6 +268,7 @@ export default function UnitConverter() {
                     value={toUnit}
                     onChange={(e) => setToUnit(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    aria-label="To unit"
                   >
                     {Object.entries(category.units).map(([key, unit]) => (
                       <option key={key} value={key}>

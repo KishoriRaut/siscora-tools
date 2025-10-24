@@ -108,7 +108,7 @@ export default function PasswordGeneratorPage() {
           </Link>
           
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-linear-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
               <Key className="w-7 h-7 text-white" />
             </div>
             <div>
