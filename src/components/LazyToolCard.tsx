@@ -49,7 +49,7 @@ export function LazyToolCard({ tool, reducedMotion, variants }: LazyToolCardProp
   return (
     <motion.article 
       ref={cardRef}
-      className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700"
+      className="group bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-100"
       variants={variants}
       whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
       whileTap={{ scale: reducedMotion ? 1 : 0.98 }}
@@ -70,15 +70,15 @@ export function LazyToolCard({ tool, reducedMotion, variants }: LazyToolCardProp
           >
             {isLoaded && <Icon className="w-6 h-6 text-white" />}
           </motion.div>
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
             {tool.name}
           </h3>
         </div>
-        <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors">
+        <p className="text-gray-600 mb-4 text-sm group-hover:text-gray-700 transition-colors">
           {tool.description}
         </p>
         <motion.div 
-          className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-semibold text-sm group-hover:translate-x-1 transition-all duration-200"
+          className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm group-hover:translate-x-1 transition-all duration-200"
           whileHover={{ x: reducedMotion ? 0 : 4 }}
           aria-hidden="true"
         >

@@ -3,7 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { StructuredData } from "@/components/StructuredData";
-import { DarkModeProvider } from "@/contexts/DarkModeContext";
+import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 
 export const metadata: Metadata = {
   title: {
@@ -86,6 +86,9 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'theme-color': '#3b82f6',
+    'application-name': 'Siscora Tools',
+    'msapplication-TileColor': '#3b82f6',
+    'msapplication-config': '/browserconfig.xml',
   },
 };
 
@@ -95,20 +98,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <head>
         <StructuredData />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#3b82f6" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Siscora Tools" />
+        <link rel="apple-touch-icon" href="/icon-192x192.svg" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function() {
-                const savedTheme = localStorage.getItem('theme');
-                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const shouldBeDark = savedTheme === 'dark' || (savedTheme === null && systemPrefersDark);
-                if (shouldBeDark) {
-                  document.documentElement.classList.add('dark');
-                }
-              })();
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                      console.log('SW registration failed: ', registrationError);
+                    });
+                });
+              }
             `,
           }}
         />
@@ -116,15 +128,14 @@ export default function RootLayout({
       <body
         className="antialiased font-sans"
       >
-        <DarkModeProvider>
-          <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-            <Header />
-            <main className="pt-16">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </DarkModeProvider>
+        <div className="min-h-screen bg-gray-50">
+          <Header />
+          <main className="pt-16">
+            {children}
+          </main>
+          <Footer />
+          <PWAInstallPrompt />
+        </div>
       </body>
     </html>
   );

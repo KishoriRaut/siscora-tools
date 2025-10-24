@@ -323,7 +323,7 @@ export default function Home() {
   }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
       {/* Skip to content link for accessibility */}
       <a 
         href="#main-content" 
@@ -380,7 +380,7 @@ export default function Home() {
                 <Code className="w-8 h-8 text-white" />
               </motion.div>
               <motion.h1 
-                className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-violet-900 dark:from-white dark:via-blue-100 dark:to-violet-100 bg-clip-text text-transparent"
+                className="text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-violet-900 bg-clip-text text-transparent"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: reducedMotion ? 0.1 : 0.8, delay: 0.2 }}
@@ -391,7 +391,7 @@ export default function Home() {
             
             {/* Main Headline */}
             <motion.h2 
-              className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6 max-w-4xl mx-auto leading-tight"
+              className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 max-w-4xl mx-auto leading-tight"
               variants={fadeInUp}
             >
               Smart, Free & Fast Online Utilities
@@ -399,7 +399,7 @@ export default function Home() {
             
             {/* Subtext */}
             <motion.p 
-              className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+              className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed"
               variants={fadeInUp}
             >
               Explore 21+ developer, design, and everyday tools that work instantly in your browser. Fast loading, optimized performance.
@@ -429,7 +429,7 @@ export default function Home() {
               >
                 <Link 
                   href="/about"
-                  className="group border-2 border-blue-500 text-blue-600 dark:text-blue-400 px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 inline-flex items-center justify-center"
+                  className="group border-2 border-blue-500 text-blue-600 px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-blue-50 transition-all duration-300 inline-flex items-center justify-center"
                 >
                   Learn More
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -443,7 +443,7 @@ export default function Home() {
       {/* Why Choose Siscora Tools Section */}
       <motion.div 
         ref={featuresRef}
-        className="py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
+        className="py-20 bg-white/50 backdrop-blur-sm"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
@@ -457,10 +457,10 @@ export default function Home() {
             transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Why Choose Siscora Tools?
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Built with modern web standards and user experience in mind
             </p>
           </motion.div>
@@ -553,10 +553,10 @@ export default function Home() {
             transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               All Tools
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Discover our collection of powerful, free tools designed to boost your productivity
             </p>
           </motion.div>
@@ -658,7 +658,7 @@ export default function Home() {
 
       {/* Subscribe to Updates Section */}
       <motion.div 
-        className="py-20 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
+        className="py-20 bg-white/50 backdrop-blur-sm"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: reducedMotion ? 0.1 : 0.6 }}
