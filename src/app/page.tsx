@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Code, Mail, Calculator, Hash, Palette, Image, FileText, Zap, Shield, QrCode, Key, Type, ArrowRight, Sparkles, ChevronUp, Send, Wrench, Grid } from 'lucide-react';
+import { Code, Mail, Calculator, Hash, Palette, Image, FileText, Zap, Shield, QrCode, Key, Type, ArrowRight, Sparkles, ChevronUp, Send, Wrench, Grid, Calendar } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { LazyToolCard } from '@/components/LazyToolCard';
 
 export default function Home() {
@@ -12,6 +13,9 @@ export default function Home() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [visibleToolsCount, setVisibleToolsCount] = useState(8); // Show only 8 tools initially
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  const searchParams = useSearchParams();
   
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
@@ -41,6 +45,15 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Handle search query from URL
+  useEffect(() => {
+    const query = searchParams.get('search');
+    if (query) {
+      setSearchQuery(query);
+      setActiveTab('all'); // Show all tools when searching
+    }
+  }, [searchParams]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -297,12 +310,35 @@ export default function Home() {
       description: 'Count words, characters, and analyze text content',
       color: 'from-amber-500 to-orange-600',
       category: 'utilities'
+    },
+    // Date & Time Tools
+    {
+      name: 'Date Converter',
+      href: '/tools/date-converter',
+      icon: Calendar,
+      description: 'Convert between Nepali and English dates',
+      color: 'from-purple-500 to-indigo-600',
+      category: 'utilities'
     }
   ];
 
-  const filteredTools = activeTab === 'all' 
-    ? allTools 
-    : allTools.filter(tool => tool.category === activeTab);
+  const filteredTools = (() => {
+    let tools = activeTab === 'all' 
+      ? allTools 
+      : allTools.filter(tool => tool.category === activeTab);
+    
+    // Apply search filter if there's a search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      tools = tools.filter(tool => 
+        tool.name.toLowerCase().includes(query) ||
+        tool.description.toLowerCase().includes(query) ||
+        tool.category.toLowerCase().includes(query)
+      );
+    }
+    
+    return tools;
+  })();
 
   // Show only a subset of tools for better performance
   const visibleTools = filteredTools.slice(0, visibleToolsCount);
@@ -554,10 +590,13 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              All Tools
+              {searchQuery ? `Search Results for "${searchQuery}"` : 'All Tools'}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover our collection of powerful, free tools designed to boost your productivity
+              {searchQuery 
+                ? `Found ${filteredTools.length} tool${filteredTools.length !== 1 ? 's' : ''} matching your search`
+                : 'Discover our collection of powerful, free tools designed to boost your productivity'
+              }
             </p>
           </motion.div>
 
