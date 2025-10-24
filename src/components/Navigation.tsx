@@ -134,6 +134,12 @@ const toolCategories = {
       href: '/tools/html-encoder-decoder',
       icon: Code,
       description: 'Encode and decode HTML entities'
+    },
+    {
+      name: 'Website Analyzer',
+      href: '/tools/website-analyzer',
+      icon: Search,
+      description: 'Analyze websites for SEO, performance, and accessibility'
     }
   ],
   'Design & Color': [

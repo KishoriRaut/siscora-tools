@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Code, Mail, Calculator, Hash, Palette, Image, FileText, Zap, Shield, QrCode, Key, Type, ArrowRight, Sparkles, ChevronUp, Send, Wrench, Grid, Calendar } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { Code, Mail, Calculator, Hash, Palette, Image, FileText, Zap, Shield, QrCode, Key, Type, ArrowRight, Sparkles, ChevronUp, Send, Wrench, Grid, Calendar, Search } from 'lucide-react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { LazyToolCard } from '@/components/LazyToolCard';
 
-export default function Home() {
+function HomeContent() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -209,6 +209,14 @@ export default function Home() {
       icon: Code,
       description: 'Encode and decode HTML entities',
       color: 'from-purple-500 to-pink-600',
+      category: 'development'
+    },
+    {
+      name: 'Website Analyzer',
+      href: '/tools/website-analyzer',
+      icon: Search,
+      description: 'Analyze websites for SEO, performance, and accessibility',
+      color: 'from-orange-500 to-red-600',
       category: 'development'
     },
     // Design & Color Tools
@@ -799,5 +807,13 @@ export default function Home() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

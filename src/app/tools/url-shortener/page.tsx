@@ -202,7 +202,7 @@ export default function URLShortener() {
                 className="w-full"
                 disabled={!originalURL.trim()}
               >
-                <Link className="w-4 h-4 mr-2" />
+                <LinkIcon className="w-4 h-4 mr-2" />
                 Shorten URL
               </Button>
 
