@@ -4,11 +4,14 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Code, Mail, Calculator, Hash, Palette, Image, FileText, Zap, Shield, QrCode, Key, Type, ArrowRight, Sparkles, ChevronUp, Send, Wrench, Grid } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { LazyToolCard } from '@/components/LazyToolCard';
 
 export default function Home() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [visibleToolsCount, setVisibleToolsCount] = useState(8); // Show only 8 tools initially
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
@@ -301,6 +304,24 @@ export default function Home() {
     ? allTools 
     : allTools.filter(tool => tool.category === activeTab);
 
+  // Show only a subset of tools for better performance
+  const visibleTools = filteredTools.slice(0, visibleToolsCount);
+  const hasMoreTools = filteredTools.length > visibleToolsCount;
+
+  const loadMoreTools = () => {
+    setIsLoadingMore(true);
+    // Simulate loading delay for better UX
+    setTimeout(() => {
+      setVisibleToolsCount(prev => Math.min(prev + 8, filteredTools.length));
+      setIsLoadingMore(false);
+    }, 300);
+  };
+
+  // Reset visible tools count when tab changes
+  useEffect(() => {
+    setVisibleToolsCount(8);
+  }, [activeTab]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Skip to content link for accessibility */}
@@ -381,7 +402,7 @@ export default function Home() {
               className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
               variants={fadeInUp}
             >
-              Explore 21+ developer, design, and everyday tools that work instantly in your browser.
+              Explore 21+ developer, design, and everyday tools that work instantly in your browser. Fast loading, optimized performance.
             </motion.p>
             
             {/* CTA Buttons */}
@@ -582,49 +603,42 @@ export default function Home() {
             animate="animate"
             variants={staggerContainer}
           >
-            {filteredTools.map((tool) => {
-              const Icon = tool.icon;
-              return (
-                <motion.article 
-                  key={tool.href}
-                  className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700"
-                  variants={fadeInUp}
-                  whileHover={{ y: reducedMotion ? 0 : -6, scale: reducedMotion ? 1 : 1.02 }}
-                  whileTap={{ scale: reducedMotion ? 1 : 0.98 }}
-                >
-                  <Link href={tool.href} className="block focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-2xl">
-                    <div className="flex items-center mb-4">
-                      <motion.div 
-                        className={`w-12 h-12 bg-gradient-to-r ${tool.color} rounded-xl flex items-center justify-center mr-4 shadow-md group-hover:shadow-lg transition-all duration-300`}
-                        whileHover={{ 
-                          scale: reducedMotion ? 1 : 1.1,
-                          rotate: reducedMotion ? 0 : 5,
-                          transition: { duration: 0.3 }
-                        }}
-                        aria-hidden="true"
-                      >
-                        <Icon className="w-6 h-6 text-white" />
-                      </motion.div>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {tool.name}
-                      </h3>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors">
-                      {tool.description}
-                    </p>
-                    <motion.div 
-                      className="inline-flex items-center text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-semibold text-sm group-hover:translate-x-1 transition-all duration-200"
-                      whileHover={{ x: reducedMotion ? 0 : 4 }}
-                      aria-hidden="true"
-                    >
-                      Open Tool
-                      <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 transition-transform" />
-                    </motion.div>
-                  </Link>
-                </motion.article>
-              );
-            })}
+            {visibleTools.map((tool) => (
+              <LazyToolCard
+                key={tool.href}
+                tool={tool}
+                reducedMotion={reducedMotion}
+                variants={fadeInUp}
+              />
+            ))}
           </motion.div>
+
+          {/* Load More Button */}
+          {hasMoreTools && (
+            <motion.div 
+              className="text-center mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <motion.button
+                onClick={loadMoreTools}
+                disabled={isLoadingMore}
+                className="bg-gradient-to-r from-blue-600 to-violet-600 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                whileHover={{ scale: reducedMotion ? 1 : 1.05 }}
+                whileTap={{ scale: reducedMotion ? 1 : 0.95 }}
+              >
+                {isLoadingMore ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Loading...
+                  </div>
+                ) : (
+                  `Load More Tools (${filteredTools.length - visibleToolsCount} remaining)`
+                )}
+              </motion.button>
+            </motion.div>
+          )}
 
           {/* No tools message for empty categories */}
           {filteredTools.length === 0 && (
