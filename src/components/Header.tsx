@@ -52,18 +52,18 @@ export function Header() {
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 min-h-16">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-violet-600 rounded-lg flex items-center justify-center shadow-lg">
-                <Code className="w-5 h-5 text-white" />
+          <div className="flex items-center flex-1 min-w-0">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-3 w-full">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-500 to-violet-600 rounded-lg flex items-center justify-center shadow-lg">
+                <Code className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gray-900">
+              <div className="block min-w-0 flex-1">
+                <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-gray-900 dark:text-white whitespace-nowrap leading-tight">
                   Siscora Tools
                 </h1>
-                <p className="text-xs text-gray-500">
+                <p className="hidden sm:block text-xs text-gray-500">
                   Free Online Tools for Everyone
                 </p>
               </div>

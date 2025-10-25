@@ -83,7 +83,6 @@ export const metadata: Metadata = {
   classification: 'Developer Tools',
   other: {
     'mobile-web-app-capable': 'yes',
-    'apple-mobile-web-app-capable': 'yes',
     'apple-mobile-web-app-status-bar-style': 'default',
     'theme-color': '#3b82f6',
     'application-name': 'Siscora Tools',
@@ -103,18 +102,42 @@ export default function RootLayout({
         <StructuredData />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#3b82f6" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Siscora Tools" />
         <link rel="apple-touch-icon" href="/icon-192x192.svg" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // Suppress React DevTools warning
+              (function() {
+                const originalConsoleWarn = console.warn;
+                console.warn = function(...args) {
+                  if (args[0] && typeof args[0] === 'string' && args[0].includes('Download the React DevTools')) {
+                    return;
+                  }
+                  originalConsoleWarn.apply(console, args);
+                };
+              })();
+              
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
                   navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
-                      console.log('SW registered: ', registration);
+                      console.log('SW registered successfully: ', registration);
+                      
+                      // Check for updates
+                      registration.addEventListener('updatefound', function() {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                          newWorker.addEventListener('statechange', function() {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                              // New content is available, reload the page
+                              window.location.reload();
+                            }
+                          });
+                        }
+                      });
                     })
                     .catch(function(registrationError) {
                       console.log('SW registration failed: ', registrationError);

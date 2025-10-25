@@ -49,13 +49,42 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests and external URLs
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      }
-    )
+        if (response) {
+          console.log('Serving from cache:', event.request.url);
+          return response;
+        }
+        
+        // Fetch from network if not in cache
+        return fetch(event.request).then((response) => {
+          // Don't cache non-successful responses
+          if (!response || response.status !== 200 || response.type !== 'basic') {
+            return response;
+          }
+
+          // Clone the response
+          const responseToCache = response.clone();
+
+          caches.open(CACHE_NAME)
+            .then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+
+          return response;
+        }).catch(() => {
+          // Return offline page if available
+          if (event.request.destination === 'document') {
+            return caches.match('/offline.html');
+          }
+        });
+      })
   );
 });
 
