@@ -194,33 +194,33 @@ export default function UnitConverter() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Input Section */}
-          <Card className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          <Card className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Converter
             </h2>
             
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Category Selection */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Category
                 </label>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                   {Object.entries(conversionCategories).map(([key, cat]) => (
                     <button
                       key={key}
                       onClick={() => setSelectedCategory(key)}
-                      className={`p-3 text-center rounded-lg border transition-colors ${
+                      className={`p-3 sm:p-4 text-center rounded-lg border transition-colors touch-target ${
                         selectedCategory === key
                           ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
                           : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                       }`}
                     >
-                      <div className="flex items-center justify-center gap-2">
-                        {cat.icon}
-                        <span className="text-sm font-medium">{cat.name}</span>
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+                        <span className="text-lg sm:text-xl">{cat.icon}</span>
+                        <span className="text-xs sm:text-sm font-medium">{cat.name}</span>
                       </div>
                     </button>
                   ))}

@@ -8,16 +8,16 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', ...props }, ref) => {
     const variants = {
-      default: 'bg-white shadow-lg',
-      outlined: 'bg-white border border-gray-200',
-      elevated: 'bg-white shadow-xl'
+      default: 'bg-white dark:bg-gray-800 shadow-lg dark:shadow-gray-900/20',
+      outlined: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700',
+      elevated: 'bg-white dark:bg-gray-800 shadow-xl dark:shadow-gray-900/30'
     };
 
     return (
       <div
         ref={ref}
         className={cn(
-          'rounded-lg p-6',
+          'rounded-lg p-4 sm:p-6 transition-all duration-200 hover:shadow-lg dark:hover:shadow-gray-900/30',
           variants[variant],
           className
         )}
@@ -44,7 +44,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingEleme
   ({ className, ...props }, ref) => (
     <h3
       ref={ref}
-      className={cn('text-lg font-semibold text-gray-900', className)}
+      className={cn('text-lg font-semibold text-gray-900 dark:text-white', className)}
       {...props}
     />
   )
@@ -55,7 +55,7 @@ const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('text-gray-600', className)}
+      className={cn('text-gray-600 dark:text-gray-400', className)}
       {...props}
     />
   )

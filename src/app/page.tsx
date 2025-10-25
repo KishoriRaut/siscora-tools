@@ -6,6 +6,7 @@ import { Code, Mail, Calculator, Hash, Palette, Image, FileText, Zap, Shield, Qr
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { LazyToolCard } from '@/components/LazyToolCard';
+import { useDesktopEnhancements, useKeyboardShortcuts } from '@/lib/useDesktopEnhancements';
 
 function HomeContent() {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -16,10 +17,30 @@ function HomeContent() {
   const [searchQuery, setSearchQuery] = useState('');
   
   const searchParams = useSearchParams();
+  const { isDesktop, isHoverSupported, isKeyboardUser } = useDesktopEnhancements();
   
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
   const toolsRef = useRef(null);
+
+  // Desktop keyboard shortcuts
+  useKeyboardShortcuts({
+    'ctrl+k': () => {
+      // Focus search
+      const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+      if (searchInput) {
+        searchInput.focus();
+      }
+    },
+    'ctrl+/': () => {
+      // Show keyboard shortcuts help
+      alert('Keyboard Shortcuts:\nCtrl+K: Focus search\nCtrl+/: Show this help\nEscape: Clear search');
+    },
+    'escape': () => {
+      // Clear search
+      setSearchQuery('');
+    }
+  });
   
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
@@ -510,7 +531,7 @@ function HomeContent() {
           </motion.div>
 
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
             initial="initial"
             whileInView="animate"
             variants={staggerContainer}
@@ -644,7 +665,7 @@ function HomeContent() {
 
           {/* Tools Grid */}
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
             key={activeTab}
             initial="initial"
             animate="animate"

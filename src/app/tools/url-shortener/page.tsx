@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CopyButton } from '@/components/CopyButton';
 import { Link as LinkIcon, ExternalLink, Trash2, BarChart3, Clock, ArrowLeft } from 'lucide-react';
+import { useDebounce } from '@/lib/usePerformance';
 
 interface ShortenedURL {
   id: string;
@@ -21,6 +22,10 @@ export default function URLShortener() {
   const [shortenedURLs, setShortenedURLs] = useState<ShortenedURL[]>([]);
   const [customSlug, setCustomSlug] = useState('');
   const [useCustomSlug, setUseCustomSlug] = useState(false);
+  const [isURLValid, setIsURLValid] = useState(false);
+  
+  // Debounced URL validation
+  const debouncedURL = useDebounce(originalURL, 300);
 
   // Load saved URLs from localStorage
   useEffect(() => {
@@ -39,42 +44,53 @@ export default function URLShortener() {
   }, []);
 
   // Save URLs to localStorage
-  const saveURLs = (urls: ShortenedURL[]) => {
+  const saveURLs = useCallback((urls: ShortenedURL[]) => {
     localStorage.setItem('shortened-urls', JSON.stringify(urls));
     setShortenedURLs(urls);
-  };
+  }, []);
 
-  const generateSlug = (length: number = 6): string => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
-  };
-
-  const isValidURL = (url: string): boolean => {
+  // Memoized URL validation
+  const validateURL = useCallback((url: string): boolean => {
     try {
       new URL(url);
       return true;
     } catch {
       return false;
     }
-  };
+  }, []);
 
-  const normalizeURL = (url: string): string => {
+  const normalizeURL = useCallback((url: string): string => {
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       return `https://${url}`;
     }
     return url;
-  };
+  }, []);
+
+  const generateSlug = useCallback((length: number = 6): string => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }, []);
+
+  // Debounced URL validation effect
+  useEffect(() => {
+    if (debouncedURL.trim()) {
+      const normalizedURL = normalizeURL(debouncedURL.trim());
+      setIsURLValid(validateURL(normalizedURL));
+    } else {
+      setIsURLValid(false);
+    }
+  }, [debouncedURL, validateURL, normalizeURL]);
 
   const shortenURL = () => {
     if (!originalURL.trim()) return;
 
     const normalizedURL = normalizeURL(originalURL.trim());
     
-    if (!isValidURL(normalizedURL)) {
+    if (!validateURL(normalizedURL)) {
       alert('Please enter a valid URL');
       return;
     }
@@ -153,14 +169,14 @@ export default function URLShortener() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Input Section */}
-          <Card className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          <Card className="p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Shorten URL
             </h2>
             
-            <div className="space-y-4">
+            <div className="space-y-4 sm:space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Enter URL to shorten
@@ -170,17 +186,30 @@ export default function URLShortener() {
                   value={originalURL}
                   onChange={(e) => setOriginalURL(e.target.value)}
                   placeholder="https://example.com/very-long-url"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`w-full px-3 py-3 sm:py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent text-base touch-target ${
+                    originalURL.trim() && isURLValid 
+                      ? 'border-green-500 focus:ring-green-500' 
+                      : originalURL.trim() && !isURLValid 
+                      ? 'border-red-500 focus:ring-red-500' 
+                      : 'border-gray-300 dark:border-gray-600 focus:ring-blue-500'
+                  }`}
                 />
+                {originalURL.trim() && (
+                  <div className={`text-xs mt-1 ${
+                    isURLValid ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  }`}>
+                    {isURLValid ? '✓ Valid URL' : '✗ Invalid URL format'}
+                  </div>
+                )}
               </div>
 
               <div>
-                <label className="flex items-center gap-3 mb-2">
+                <label className="flex items-center gap-3 mb-2 touch-target">
                   <input
                     type="checkbox"
                     checked={useCustomSlug}
                     onChange={(e) => setUseCustomSlug(e.target.checked)}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Use custom short code
@@ -192,18 +221,18 @@ export default function URLShortener() {
                     value={customSlug}
                     onChange={(e) => setCustomSlug(e.target.value)}
                     placeholder="my-custom-link"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-3 sm:py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base touch-target"
                   />
                 )}
               </div>
 
               <Button
                 onClick={shortenURL}
-                className="w-full"
+                className="w-full touch-target btn-interactive"
                 disabled={!originalURL.trim()}
               >
                 <LinkIcon className="w-4 h-4 mr-2" />
-                Shorten URL
+                <span className="text-sm sm:text-base">Shorten URL</span>
               </Button>
 
               {shortenedURL && (

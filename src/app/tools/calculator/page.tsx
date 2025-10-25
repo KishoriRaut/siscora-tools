@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Calculator, ArrowLeft, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
+import { useKeyboardNavigation } from '@/lib/useKeyboardNavigation';
 
 type Operation = '+' | '-' | '*' | '/' | '=' | 'C' | 'CE' | '±' | '%' | '.';
 
@@ -122,6 +123,23 @@ export default function CalculatorPage() {
     }
   }, [inputNumber, inputDecimal, inputOperation, performCalculation, clear, backspace]);
 
+  // Enhanced keyboard navigation
+  useKeyboardNavigation({
+    onEnter: () => performCalculation(),
+    onEscape: () => clear(),
+    onArrowUp: () => {
+      // Navigate to previous history item
+      if (history.length > 0) {
+        const lastHistory = history[history.length - 1];
+        setDisplay(lastHistory);
+      }
+    },
+    onArrowDown: () => {
+      // Clear display
+      setDisplay('0');
+    }
+  });
+
   const buttons = [
     { label: 'C', onClick: clear, className: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700' },
     { label: 'CE', onClick: clearEntry, className: 'bg-red-500 text-white hover:bg-red-600 active:bg-red-700' },
@@ -177,36 +195,52 @@ export default function CalculatorPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {/* Calculator */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">
               Calculator
             </h2>
             
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Display */}
-              <div className="bg-gray-900 text-white p-4 rounded-lg text-right">
-                <div className="text-3xl font-mono min-h-[2rem] flex items-center justify-end">
+              <div 
+                className="bg-gray-900 text-white p-3 sm:p-4 rounded-lg text-right"
+                role="region"
+                aria-label="Calculator display"
+              >
+                <div 
+                  className="text-2xl sm:text-3xl font-mono min-h-[1.5rem] sm:min-h-[2rem] flex items-center justify-end break-all"
+                  aria-live="polite"
+                  aria-label={`Current value: ${display}`}
+                >
                   {display}
                 </div>
                 {operation && previousValue !== null && (
-                  <div className="text-sm text-gray-400 mt-1">
+                  <div className="text-xs sm:text-sm text-gray-400 mt-1" aria-label={`Previous: ${previousValue} ${operation}`}>
                     {previousValue} {operation}
                   </div>
                 )}
               </div>
 
               {/* Buttons Grid */}
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-2 sm:gap-3">
                 {buttons.map((button, index) => (
                   <button
                     key={index}
                     onClick={button.onClick}
-                    className={`p-4 rounded-lg font-medium transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${button.className}`}
+                    className={`p-3 sm:p-4 rounded-lg font-medium transition-all duration-200 transform active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 touch-target ${button.className}`}
                     aria-label={`Calculator button: ${button.label}`}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        button.onClick();
+                      }
+                    }}
                   >
-                    {button.label}
+                    <span className="text-sm sm:text-base">{button.label}</span>
                   </button>
                 ))}
               </div>
